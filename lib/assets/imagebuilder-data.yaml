@@ -1,0 +1,21 @@
+name: yum_install
+description: Install_nginx_and_mysql
+schemaVersion: 1.0
+phases:
+  - name: build
+    steps:
+      - name: Install_nginx
+        action: ExecuteBash
+        inputs:
+          commands:
+            - amazon-linux-extras install nginx1
+            - systemctl enable nginx
+            - systemctl start nginx
+      - name: Install_mysql_client
+        action: ExecuteBash
+        inputs:
+          commands:
+            - yum localinstall -y https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
+            - yum-config-manager --disable mysql57-community
+            - yum-config-manager --enable mysql80-community
+            - yum install -y mysql-community-client
